@@ -4,7 +4,7 @@
   "description": "Multi-user Scrum Poker voting app with real-time updates",
   "private": true,
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=24.0.0 <25"
   },
   "scripts": {
     "scrum-poker": "next dev",

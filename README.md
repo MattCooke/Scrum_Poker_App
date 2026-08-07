@@ -205,7 +205,7 @@ environment:
 ```
 
 **Azure App Service (Node.js runtime):**
-1. Use a Linux Web App with the Node 20 LTS runtime.
+1. Use a Linux Web App with the Node 24 LTS runtime.
 2. Set the startup command to `npm start`.
 3. Enable **Web sockets**. Enable **Always On** if the App Service plan supports it.
 4. Add these application settings:

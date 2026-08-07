@@ -1,0 +1,36 @@
+# Ultra-minimal Docker image using distroless
+# Final image size: ~50-80 MB (no shell, maximum security)
+
+# Stage 1: Builder
+FROM node:lts-alpine3.24 AS builder
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN npm run build
+
+# Stage 2: Distroless runner (smallest possible)
+FROM gcr.io/distroless/nodejs18-debian11
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
+
+# Copy from builder
+COPY --from=builder --chown=nonroot:nonroot /app/.next/standalone ./
+COPY --from=builder --chown=nonroot:nonroot /app/.next/static ./.next/static
+COPY --from=builder --chown=nonroot:nonroot /app/public ./public
+
+# Distroless images use nonroot user by default
+USER nonroot
+
+EXPOSE 3000
+
+# Note: No health check possible in distroless (no shell)
+CMD ["server.js"]

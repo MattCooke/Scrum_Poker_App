@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Multi-user Scrum Poker voting app with real-time updates",
   "private": true,
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "scrum-poker": "next dev",
     "scrum-poker:all": "next dev -H 0.0.0.0",

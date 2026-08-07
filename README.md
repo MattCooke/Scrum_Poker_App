@@ -204,11 +204,21 @@ environment:
   - PORT=3000
 ```
 
-**Azure App Service (Web App):**
-1. Deploy this repository as a Node.js Web App or use the included Dockerfile.
-2. Set the startup command to `npm start` for a source deployment.
-3. Set the app setting `Port=3000` for the default port. For a custom-container deployment, set `WEBSITES_PORT=3000` so Azure routes traffic to the container.
-4. Keep the app at one instance because room state is held in memory.
+**Azure App Service (Node.js runtime):**
+1. Use a Linux Web App with the Node 20 LTS runtime.
+2. Set the startup command to `npm start`.
+3. Enable **Web sockets**. Enable **Always On** if the App Service plan supports it.
+4. Add these application settings:
+   ```text
+   NODE_ENV=production
+   Port=3000
+   HOSTNAME=0.0.0.0
+   SCM_DO_BUILD_DURING_DEPLOYMENT=true
+   ```
+5. Connect the repository through **Deployment Center → GitHub**.
+6. Ensure deployment runs `npm ci` followed by `npm run build`.
+7. Keep the app at one instance because room state is held in memory.
+8. Do not set `WEBSITES_PORT`; that setting is only needed for custom-container Web Apps.
 
 **Popular Hosting Platforms:**
 

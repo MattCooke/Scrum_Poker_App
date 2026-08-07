@@ -46,6 +46,6 @@ EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+  CMD node -e "const p=Number.parseInt(process.env.Port||process.env.PORT||'3000',10); require('http').get('http://127.0.0.1:'+p, (r) => {process.exit(r.statusCode === 200 ? 0 : 1)}).on('error', () => process.exit(1))"
 
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "export PORT=\"${Port:-${PORT:-3000}}\"; exec node server.js"]

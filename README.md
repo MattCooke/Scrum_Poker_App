@@ -75,6 +75,14 @@ npx next dev -H 192.168.1.100 -p 3000
 - `0.0.0.0` - Accessible from any device on your network
 - Specific IP (e.g., `192.168.1.100`) - Bind to a specific network interface
 
+**Production and Azure Web App**
+For a production deployment, use the custom Node.js entrypoint:
+```bash
+npm run build
+npm start
+```
+The server binds to `0.0.0.0` and reads `process.env.Port`, then `process.env.PORT`, defaulting to port `3000`. For an Azure App Service source deployment, set the startup command to `npm start` and configure the `Port` app setting if Azure provides a different port.
+
 ### Usage
 
 #### Room Management
@@ -195,6 +203,12 @@ environment:
   - HOSTNAME=0.0.0.0
   - PORT=3000
 ```
+
+**Azure App Service (Web App):**
+1. Deploy this repository as a Node.js Web App or use the included Dockerfile.
+2. Set the startup command to `npm start` for a source deployment.
+3. Set the app setting `Port=3000` for the default port. For a custom-container deployment, set `WEBSITES_PORT=3000` so Azure routes traffic to the container.
+4. Keep the app at one instance because room state is held in memory.
 
 **Popular Hosting Platforms:**
 

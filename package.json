@@ -9,8 +9,8 @@
     "scrum-poker:local": "next dev -H localhost",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "start:all": "next start -H 0.0.0.0",
+    "start": "node server.cjs",
+    "start:all": "node server.cjs",
     "lint": "next lint"
   },
   "dependencies": {
